@@ -112,10 +112,18 @@ additional_ssh_commands() {
 # Function to perform additional SSH commands for profile setup
 additional_profile_setup() {
     # SSH commands for RC.MGR
-    ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANTS; BINSTALL; INSTALL EMAN$release_letterS EMAN$release_letter"
+    ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANTS; BINSTALL; INSTALL EMAN{$release_letter}S EMAN{$release_letter}"
 
     # SSH commands for RC.MGR
     ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANT; PURGE PROFILES; FUP DUP EMANT.PROFILES,*; EDIT PROFILES"
+
+    # SSH commands for RX.FER@SED1
+    ssh RX.FER@DEV2 "VOLUME $EMAN.EMAN{$release_letter}; EDIT PROFILES; LA; ADD <line number>"
+
+    # Paste the text copied previously. Review and save changes.
+
+    # SSH commands for RX.FER@DEV2
+    ssh RX.FER@DEV2 "EMAN{$release_letter} {$release_letter}RH; RE {$release_letter}RA ALL"
 
 }
 

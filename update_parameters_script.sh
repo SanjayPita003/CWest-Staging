@@ -116,6 +116,7 @@ additional_profile_setup() {
 
     # SSH commands for RC.MGR
     ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANT; PURGE PROFILES; FUP DUP EMANT.PROFILES,*; EDIT PROFILES"
+
 }
 
 # Display default parameters

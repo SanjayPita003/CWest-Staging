@@ -83,6 +83,14 @@ additional_ssh_commands() {
     # SSH commands for RX.FER
     ssh RX.FER@SED1 "VOLUME $SYSTEM.EMANT; PURGE *; FI"
 }
+# Function to perform additional SSH commands for profile setup
+additional_profile_setup() {
+    # SSH commands for RC.MGR
+    ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANTS; BINSTALL; INSTALL EMANTS EMANT"
+
+    # SSH commands for RC.MGR
+    ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANT; PURGE PROFILES; FUP DUP EMANT.PROFILES,*; EDIT PROFILES"
+}
 
 # Display default parameters
 echo "Default Parameters:"
@@ -103,6 +111,10 @@ display_parameters
 # Perform pre-staging activities
 echo "Performing Pre-staging Activities:"
 prestage_activities
+
+# Perform additional profile setup
+echo "Performing Additional Profile Setup:"
+additional_profile_setup
 
 # Perform additional SSH commands
 echo "Performing Additional SSH Commands:"

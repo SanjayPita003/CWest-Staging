@@ -6,7 +6,7 @@ This Bash script is designed to perform specific tasks related to a release buil
 
 ## Machine Details
 
-- **Remote Host:** `10.202.5.114`
+- **Remote Host:** `10.202.5.122`
 - **Remote Port:** `22`
 - **Remote User:** `psccqa`
 - **Private Key Path:** `/path/to/your/private/key`

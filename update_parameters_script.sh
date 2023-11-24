@@ -49,23 +49,6 @@ update_parameters() {
     read -p "Enter TMA: " tma
 }
 
-# Display default parameters
-echo "Default Parameters:"
-display_parameters
-
-# Ask user if they want to update parameters
-read -p "Do you want to update parameters? (y/n): " choice
-
-# If user chooses to update, call the update_parameters function
-if [ "$choice" == "y" ]; then
-    update_parameters
-fi
-
-# Display updated parameters
-echo "Updated Parameters:"
-display_parameters
-
-
 # Function to perform pre-staging activities
 prestage_activities() {
     # SSH commands using dynamically set parameters
@@ -77,6 +60,21 @@ prestage_activities() {
 
     ssh wil-trng1 ls –ld "/L/gds/tma.${tma}"
     ssh wil-trng2 ls –ld "/L/gds/tma.${tma}"
+}
+
+# Function to perform additional SSH commands
+additional_ssh_commands() {
+    # SSH commands for PRODSE.USER1
+    ssh PRODSE.USER1@SED1 "EMANT TP1; DE"
+
+    # SSH commands for TRAIN.TRNING
+    ssh TRAIN.TRNING@SED1 "EMANT TT2; DE"
+
+    # SSH commands for RC.MGR
+    ssh RC.MGR@SED1 "EMANT TRA; DE"
+
+    # SSH commands for RX.FER
+    ssh RX.FER@SED1 "VOLUME $SYSTEM.EMANT; PURGE *; FI"
 }
 
 # Display default parameters
@@ -98,3 +96,7 @@ display_parameters
 # Perform pre-staging activities
 echo "Performing Pre-staging Activities:"
 prestage_activities
+
+# Perform additional SSH commands
+echo "Performing Additional SSH Commands:"
+additional_ssh_commands

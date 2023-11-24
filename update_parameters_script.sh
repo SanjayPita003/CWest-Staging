@@ -64,3 +64,37 @@ fi
 # Display updated parameters
 echo "Updated Parameters:"
 display_parameters
+
+
+# Function to perform pre-staging activities
+prestage_activities() {
+    # SSH commands using dynamically set parameters
+    ssh wil-trng1 ls –ld "/L/ctc_data/ctc_data.${release_build}.${database}"
+    ssh wil-trng2 ls –ld "/L/ctc_data/ctc_data.${release_build}.${database}"
+
+    ssh wil-trng1 ls –ld "/L/ctcws/ctcws.${ctcws}"
+    ssh wil-trng2 ls –ld "/L/ctcws/ctcws.${ctcws}"
+
+    ssh wil-trng1 ls –ld "/L/gds/tma.${tma}"
+    ssh wil-trng2 ls –ld "/L/gds/tma.${tma}"
+}
+
+# Display default parameters
+echo "Default Parameters:"
+display_parameters
+
+# Ask user if they want to update parameters
+read -p "Do you want to update parameters? (y/n): " choice
+
+# If the user chooses to update, call the update_parameters function
+if [ "$choice" == "y" ]; then
+    update_parameters
+fi
+
+# Display updated parameters
+echo "Updated Parameters:"
+display_parameters
+
+# Perform pre-staging activities
+echo "Performing Pre-staging Activities:"
+prestage_activities

@@ -41,32 +41,57 @@ display_parameters() {
 
 # Function to update parameters based on user inputs
 update_parameters() {
-    read -p "Enter Release Build: " release_build
-    read -p "Enter Release Letter: " release_letter
-    read -p "Enter Build Number: " build_number
-    read -p "Enter Previous Release Letter: " prev_release_letter
-    read -p "Enter 2 Releases Prior Letter: " two_releases_prior_letter
-    read -p "Enter Host: " host
-    read -p "Enter Database: " database
-    read -p "Enter Prefix Letter: " prefix_letter
-    read -p "Enter New Disk: " new_disk
-    read -p "Enter Old Disk: " old_disk
-    read -p "Enter Port: " port
-    read -p "Enter CTCWS: " ctcws
-    read -p "Enter TMA: " tma
+    read -p "Enter Release Build [$release_build]: " input
+    release_build=${input:-$release_build}
+
+    read -p "Enter Release Letter [$release_letter]: " input
+    release_letter=${input:-$release_letter}
+
+    read -p "Enter Build Number [$build_number]: " input
+    build_number=${input:-$build_number}
+
+    read -p "Enter Previous Release Letter [$prev_release_letter]: " input
+    prev_release_letter=${input:-$prev_release_letter}
+
+    read -p "Enter 2 Releases Prior Letter [$two_releases_prior_letter]: " input
+    two_releases_prior_letter=${input:-$two_releases_prior_letter}
+
+    read -p "Enter Host [$host]: " input
+    host=${input:-$host}
+
+    read -p "Enter Database [$database]: " input
+    database=${input:-$database}
+
+    read -p "Enter Prefix Letter [$prefix_letter]: " input
+    prefix_letter=${input:-$prefix_letter}
+
+    read -p "Enter New Disk [$new_disk]: " input
+    new_disk=${input:-$new_disk}
+
+    read -p "Enter Old Disk [$old_disk]: " input
+    old_disk=${input:-$old_disk}
+
+    read -p "Enter Port [$port]: " input
+    port=${input:-$port}
+
+    read -p "Enter CTCWS [$ctcws]: " input
+    ctcws=${input:-$ctcws}
+
+    read -p "Enter TMA [$tma]: " input
+    tma=${input:-$tma}
 }
 
 # Function to perform pre-staging activities
 prestage_activities() {
     # SSH commands using dynamically set parameters
-    ssh wil-trng1 ls –ld "/L/ctc_data/ctc_data.${release_build}.${database}"
-    ssh wil-trng2 ls –ld "/L/ctc_data/ctc_data.${release_build}.${database}"
+    ssh wil-trng1 ls -ld "/L/ctc_data/ctc_data.${release_build}.${database}"
+    ssh wil-trng2 ls -ld "/L/ctc_data/ctc_data.${release_build}.${database}"
 
-    ssh wil-trng1 ls –ld "/L/ctcws/ctcws.${ctcws}"
-    ssh wil-trng2 ls –ld "/L/ctcws/ctcws.${ctcws}"
+    ssh wil-trng1 ls -ld "/L/ctcws/ctcws.${ctcws}"
+    ssh wil-trng2 ls -ld "/L/ctcws/ctcws.${ctcws}"
 
-    ssh wil-trng1 ls –ld "/L/gds/tma.${tma}"
-    ssh wil-trng2 ls –ld "/L/gds/tma.${tma}"
+    ssh wil-trng1 ls -ld "/L/gds/tma.${tma}"
+    ssh wil-trng2 ls -ld "/L/gds/tma.${tma}"
 }
 
 # Function to perform additional SSH commands
@@ -83,10 +108,11 @@ additional_ssh_commands() {
     # SSH commands for RX.FER
     ssh RX.FER@SED1 "VOLUME $SYSTEM.EMANT; PURGE *; FI"
 }
+
 # Function to perform additional SSH commands for profile setup
 additional_profile_setup() {
     # SSH commands for RC.MGR
-    ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANTS; BINSTALL; INSTALL EMANTS EMANT"
+    ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANTS; BINSTALL; INSTALL EMAN$release_letterS EMAN$release_letter"
 
     # SSH commands for RC.MGR
     ssh RC.MGR@SED1 "VOLUME $AUDIT.EMANT; PURGE PROFILES; FUP DUP EMANT.PROFILES,*; EDIT PROFILES"

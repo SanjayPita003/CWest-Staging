@@ -59,8 +59,7 @@ prestage_activities
 echo "Performing Additional SSH Commands:"
 additional_ssh_commands
 
-**## Setting Up SSH Key Pair for Jenkins Job**
-
+## Setting Up SSH Key Pair for Jenkins Job
 1. **Generate SSH Key Pair:**
    - On the machine where you run the Jenkins job, generate an SSH key pair using the following command:
      ```bash

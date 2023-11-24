@@ -3,7 +3,9 @@
 # Machine details
 remote_host="10.202.5.114"
 remote_port="22"
-remote_user="your_ssh_username"
+remote_user="psccqa"
+private_key_path="/path/to/your/private/key"
+
 
 # Default values
 release_build="S20"

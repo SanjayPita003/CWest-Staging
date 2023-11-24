@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Machine details
+remote_host="10.202.5.114"
+remote_port="22"
+remote_user="your_ssh_username"
+
 # Default values
 release_build="S20"
 release_letter="T"

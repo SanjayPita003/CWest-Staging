@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+    
+    environment {
+        RELEASE_BUILD = 'C55'
+        RELEASE_LETTER = 'C'
+        BUILD_NUMBER = '8'
+        PREV_RELEASE_LETTER = 'B'
+        TWO_RELEASES_PRIOR_LETTER = 'D'
+        HOST = '\cwah1'
+        DATABASE = 'C055.07'
+        PREFIX_LETTER = 'D'
+        NEW_DISK = '$DATA4'
+        OLD_DISK = '$DATA3'
+        PORT = '11100'
+        CTCWS = '37.73'
+        TMA = '21.6'
+        REMOTE_HOST = 'RC.MGR'
+        REMOTE_PORT = '22'
+        REMOTE_USER = 'cwha1'
+        ADDITIONAL_SHELL_SCRIPT = '''
+            ssh -T rc.mgr@${tandem} << com
+                gtacl
+                eman${eman_env} c $build_env ebldrel
+                eman${eman_env} c $build_env
+                ccs
+                scs
+                exit
+                exit
+            com
+        '''
+    }
+    
+    stages {
+        stage('Update Parameters') {
+            steps {
+                script {
+                    // You can prompt users for input here if needed
+                    // For simplicity, using predefined parameters
+                    // Update parameters here if needed
+                }
+            }
+        }
+        
+        stage('Prestaging Activities') {
+            steps {
+                script {
+                    // Run SSH commands for prestaging activities
+                    sh "ssh -T ${env.REMOTE_USER}@${env.REMOTE_HOST} <<EOF\n${env.ADDITIONAL_SHELL_SCRIPT}\nEOF"
+                    sh "ssh -T ${env.REMOTE_USER}@${env.REMOTE_HOST} ls -ld \"/L/ctc_data/ctc_data.${env.RELEASE_BUILD}.${env.DATABASE}\""
+                    sh "ssh -T ${env.REMOTE_USER}@${env.REMOTE_HOST} ls -ld \"/L/ctcws/ctcws.${env.CTCWS}\""
+                    sh "ssh -T ${env.REMOTE_USER}@${env.REMOTE_HOST} ls -ld \"/L/gds/tma.${env.TMA}\""
+                }
+            }
+        }
+    }
+}
